@@ -1,3 +1,4 @@
+This program is meant to be left running in the background as you play Elden Ring.
 Literally just a timer that yells at you sometimes to turn taunter's tongue on and off.
 
 The timer waits for 10 minutes, then rolls a dice every 40 seconds, with a 15% chance of activating a voice message that reminds the player to activate taunter's tongue. After that, it reminds the player to deactivate taunter's tongue, and goes back to counting to 10 minutes (peace mode.)
