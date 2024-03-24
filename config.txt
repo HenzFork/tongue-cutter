@@ -1,0 +1,5 @@
+peace_time = 600
+invasion_chance = 0.15
+invasion_attempt_interval = 40
+peace_chance = 0.95
+peace_attempt_interval = 60
