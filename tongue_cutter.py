@@ -16,21 +16,17 @@ with open(os.path.join(path, "config.txt"), "r") as file:
 config_data = {}
 for line in config_lines:
     item, value = line.strip().split('=')
-    config_data[item.strip()] = float(value.strip())
+    config_data[item.strip()] = value.strip()
 
 peace_time = int(config_data['peace_time'])
-invasion_chance = config_data['invasion_chance']
+invasion_chance = float(config_data['invasion_chance'])
 invasion_attempt_interval = int(config_data['invasion_attempt_interval'])
-peace_chance = config_data['peace_chance']
+peace_chance = float(config_data['peace_chance'])
 peace_attempt_interval = int(config_data['peace_attempt_interval'])
+shortcut_key = str(config_data['taunters_tongue_shortcut'].upper())
 
-timer = 0
+buttons = {"E":0x12, "LEFT":0xCB, "UP":0xC8, "RIGHT":0xCD, "DOWN":0xD0}
 
-E = 0x12
-LEFT = 0xCB
-UP = 0xC8
-RIGHT = 0xCD
-DOWN = 0xD0
 
 SendInput = ctypes.windll.user32.SendInput
 PUL = ctypes.POINTER(ctypes.c_ulong)
@@ -91,22 +87,24 @@ def toggle_tongue(toggle_chance, attempt_interval, voice):
         time.sleep(attempt_interval)
         if random.random() < toggle_chance:
             play_sound(os.path.join(path, voice))
-            PressKey(E)
+            PressKey(buttons["E"])
             time.sleep(0.3)
-            PressKey(LEFT)
+            PressKey(buttons[shortcut_key])
             time.sleep(0.3)
-            ReleaseKey(E)
-            ReleaseKey(LEFT)
+            ReleaseKey(buttons["E"])
+            ReleaseKey(buttons[shortcut_key])
             time.sleep(0.3)
-            PressKey(E)
+            PressKey(buttons["E"])
             time.sleep(0.3)
-            ReleaseKey(E)
+            ReleaseKey(buttons["E"])
     
             break
 
 print(f"Please ensure that the {activation_voice} and {deactivation_voice} files of your choice are within the same folder as this .exe file, and that they are correctly named")
-print(f"Time before invasions could start: {peace_time} seconds\nActivation chance: {int(invasion_chance*100)}% every {invasion_attempt_interval} seconds\nDeactivation chance: {int(peace_chance*100)}% every {peace_attempt_interval} seconds\n\nIt is more fun if you don't know when the invader is coming, make sure you're not looking at the timer all the time.\n")
+print(f"Time before invasions could start: {peace_time} seconds\nActivation chance: {int(invasion_chance*100)}% every {invasion_attempt_interval} seconds\nDeactivation chance: {int(peace_chance*100)}% every {peace_attempt_interval} seconds\nYour taunter's tongue should be set on the {shortcut_key} button\n\nIt is more fun if you don't know when the invader is coming, make sure you're not looking at the timer all the time.\n")
 input("Press Enter to start the timer...")
+
+timer = 0
 
 while True:
     time.sleep(1)
